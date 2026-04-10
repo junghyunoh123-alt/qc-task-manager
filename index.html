@@ -7,20 +7,50 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-size:14px;background:#f5f5f5;color:#1a1a1a;min-height:100vh}
-  .app{max-width:1200px;margin:0 auto;padding:24px 16px}
+  .app{max-width:1200px;margin:0 auto;padding:20px 16px}
+
+  /* ── 상단 바 ── */
   .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
   .app-title{font-size:20px;font-weight:600;color:#111}
   .app-subtitle{font-size:13px;color:#888;margin-top:2px}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+  .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+  /* ── 통계 ── */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
   .stat{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #e8e8e8}
   .stat-label{font-size:12px;color:#888;margin-bottom:5px}
   .stat-val{font-size:24px;font-weight:600}
   .stat-val.blue{color:#1a73e8}.stat-val.orange{color:#f5a623}
   .stat-val.green{color:#0f9d58}.stat-val.red{color:#d93025}
+
+  /* ── 필터 ── */
   .filter-bar{background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:12px 16px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-  .filter-bar input,.filter-bar select{border:1px solid #ddd;border-radius:6px;padding:6px 10px;font-size:13px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none}
+  .filter-bar input,.filter-bar select{border:1px solid #ddd;border-radius:6px;padding:7px 10px;font-size:13px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none}
   .filter-bar input:focus,.filter-bar select:focus{border-color:#1a73e8}
   .filter-bar input{width:160px}
+
+  /* ── 배지 ── */
+  .badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+  .b-qc{background:#e8f0fe;color:#1a56db}.b-qa{background:#e6f4ea;color:#137333}
+  .b-high{background:#fce8e6;color:#c5221f}.b-mid{background:#fef3e2;color:#b06000}.b-low{background:#e6f4ea;color:#137333}
+  .b-todo{background:#f1f3f4;color:#5f6368}.b-wip{background:#fef3e2;color:#b06000}
+  .b-done{background:#e6f4ea;color:#137333}.b-hold{background:#fce8e6;color:#c5221f}
+
+  /* ── 진행바 ── */
+  .prog-wrap{display:flex;align-items:center;gap:7px}
+  .prog-bar{height:6px;background:#e8e8e8;border-radius:0;overflow:hidden;flex-shrink:0}
+  .prog-fill{height:100%;background:#0f9d58;border-radius:0}
+
+  /* ── 버튼 ── */
+  .btn-primary{background:#1a73e8;color:#fff;border:none;border-radius:7px;padding:9px 16px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500;touch-action:manipulation}
+  .btn-primary:hover{background:#1557b0}
+  .btn-sm{border:1px solid #ddd;background:#fff;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;color:#444;font-family:inherit;touch-action:manipulation}
+  .btn-sm:hover{border-color:#1a73e8;color:#1a73e8;background:#f0f4ff}
+  .btn-del{color:#c5221f;border-color:#f5c6c6}.btn-del:hover{background:#fce8e6;border-color:#c5221f}
+  .btn-cancel{border:1px solid #ddd;background:#fff;border-radius:7px;padding:9px 16px;font-size:13px;cursor:pointer;color:#555;font-family:inherit;touch-action:manipulation}
+  .btn-cancel:hover{background:#f5f5f5}
+
+  /* ── 데스크탑 테이블 ── */
   .table-card{background:#fff;border-radius:10px;border:1px solid #e8e8e8;overflow:hidden}
   .table-wrap{overflow-x:auto}
   table{width:100%;border-collapse:collapse;min-width:820px}
@@ -29,64 +59,107 @@
   tbody tr:last-child{border-bottom:none}
   tbody tr:hover{background:#fafcff}
   td{padding:11px 14px;font-size:13px;vertical-align:middle}
-  .badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
-  .b-qc{background:#e8f0fe;color:#1a56db}.b-qa{background:#e6f4ea;color:#137333}
-  .b-high{background:#fce8e6;color:#c5221f}.b-mid{background:#fef3e2;color:#b06000}.b-low{background:#e6f4ea;color:#137333}
-  .b-todo{background:#f1f3f4;color:#5f6368}.b-wip{background:#fef3e2;color:#b06000}
-  .b-done{background:#e6f4ea;color:#137333}.b-hold{background:#fce8e6;color:#c5221f}
-  .prog-wrap{display:flex;align-items:center;gap:7px}
-  .prog-bar{width:72px;height:6px;background:#e8e8e8;border-radius:0;overflow:hidden;flex-shrink:0}
-  .prog-fill{height:100%;background:#0f9d58;border-radius:0}
-  .btn-primary{background:#1a73e8;color:#fff;border:none;border-radius:7px;padding:8px 16px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500}
-  .btn-primary:hover{background:#1557b0}
-  .btn-sm{border:1px solid #ddd;background:#fff;border-radius:6px;padding:4px 9px;font-size:12px;cursor:pointer;color:#444;font-family:inherit}
-  .btn-sm:hover{border-color:#1a73e8;color:#1a73e8;background:#f0f4ff}
-  .btn-del{color:#c5221f;border-color:#f5c6c6}.btn-del:hover{background:#fce8e6;border-color:#c5221f}
-  .btn-cancel{border:1px solid #ddd;background:#fff;border-radius:7px;padding:8px 16px;font-size:13px;cursor:pointer;color:#555;font-family:inherit}
-  .btn-cancel:hover{background:#f5f5f5}
   .task-name{font-weight:500;cursor:pointer}.task-name:hover{color:#1a73e8;text-decoration:underline}
   .task-desc{font-size:12px;color:#888;margin-top:2px;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .overdue{color:#c5221f;font-weight:600}
   .update-cell{font-size:12px;color:#888;line-height:1.5}
   .update-cell .udate{color:#555;font-weight:500}
   .update-cell .utext{max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
-  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center;padding:16px}
-  .modal-bg.open{display:flex}
-  .modal{background:#fff;border-radius:12px;padding:24px;width:min(500px,100%);max-height:90vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.15)}
-  .modal h2{font-size:17px;font-weight:600;margin-bottom:20px;color:#111}
-  .field{margin-bottom:14px}
-  .field label{display:block;font-size:12px;font-weight:500;color:#555;margin-bottom:5px}
-  .field input,.field select,.field textarea{width:100%;border:1px solid #ddd;border-radius:7px;padding:8px 11px;font-size:13px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none}
-  .field input:focus,.field select:focus,.field textarea:focus{border-color:#1a73e8}
-  .field textarea{resize:vertical;min-height:72px;line-height:1.6}
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .modal-btns{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
-  .prog-slider{width:100%;accent-color:#1a73e8}
-  .detail-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-  .detail-table{width:100%;font-size:13px;margin-bottom:16px}
-  .detail-table td{padding:6px 0;vertical-align:top}
-  .detail-table td:first-child{color:#888;width:72px}
-  .history-label{font-size:11px;font-weight:600;color:#888;letter-spacing:0.05em;margin-bottom:10px}
-  .history-item{border-left:3px solid #e8e8e8;padding:7px 12px;margin-bottom:8px;border-radius:0 6px 6px 0}
-  .history-item .hi-date{font-size:11px;color:#888;margin-bottom:3px}
-  .history-item .hi-author{font-size:11px;color:#1a73e8;font-weight:500}
-  .history-item .hi-text{font-size:13px;color:#333}
+
+  /* ── 모바일 카드 ── */
+  .card-list{display:none;flex-direction:column;gap:10px}
+  .task-card{background:#fff;border-radius:12px;border:1px solid #e8e8e8;padding:14px 16px;cursor:pointer;transition:box-shadow 0.15s}
+  .task-card:active{box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+  .card-badges{display:flex;gap:5px;flex-wrap:wrap}
+  .card-title{font-weight:600;font-size:15px;color:#111;margin-bottom:3px;line-height:1.4}
+  .card-desc{font-size:12px;color:#888;margin-bottom:10px;line-height:1.5}
+  .card-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+  .card-meta-item{font-size:12px}
+  .card-meta-label{color:#aaa;display:block;margin-bottom:1px}
+  .card-meta-value{color:#333;font-weight:500}
+  .card-progress{margin-bottom:10px}
+  .card-progress-label{font-size:12px;color:#888;margin-bottom:4px;display:flex;justify-content:space-between}
+  .card-prog-bar{width:100%;height:5px;background:#e8e8e8;border-radius:0;overflow:hidden}
+  .card-prog-fill{height:100%;background:#0f9d58;border-radius:0;transition:width 0.3s}
+  .card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #f0f0f0}
+  .card-update{font-size:11px;color:#aaa;line-height:1.4}
+  .card-actions{display:flex;gap:6px}
+  .overdue-text{color:#c5221f}
+
+  /* ── 빈 상태 ── */
   .empty{text-align:center;padding:48px 16px;color:#888;font-size:13px}
-  .loading-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.85);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+
+  /* ── 로딩/토스트 ── */
+  .loading-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.9);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
   .spinner{width:32px;height:32px;border:3px solid #e8e8e8;border-top-color:#1a73e8;border-radius:50%;animation:spin 0.7s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .loading-text{font-size:13px;color:#555}
-  .error-box{background:#fce8e6;border:1px solid #f5c6c6;border-radius:8px;padding:12px 16px;color:#c5221f;font-size:13px;margin:8px 0;display:none}
+  .error-box{background:#fce8e6;border:1px solid #f5c6c6;border-radius:8px;padding:12px 16px;color:#c5221f;font-size:13px;margin-bottom:12px;display:none}
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:400;opacity:0;transition:opacity 0.25s;pointer-events:none;white-space:nowrap}
   .toast.show{opacity:1}
-  @media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.field-row{grid-template-columns:1fr}.filter-bar input{width:100%}}
-  .tpl-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #e8e8e8;border-radius:8px;margin-bottom:8px;background:#fff}
+
+  /* ── 모달 ── */
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:flex-end;justify-content:center;padding:0}
+  .modal-bg.open{display:flex}
+  .modal{background:#fff;border-radius:16px 16px 0 0;padding:24px 20px;width:100%;max-height:92vh;overflow-y:auto;overflow-x:hidden;box-shadow:0 -4px 24px rgba(0,0,0,0.15)}
+  .modal-handle{width:40px;height:4px;background:#e8e8e8;border-radius:2px;margin:0 auto 20px}
+  .modal h2{font-size:17px;font-weight:600;margin-bottom:20px;color:#111}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:12px;font-weight:500;color:#555;margin-bottom:5px}
+  .field input,.field select,.field textarea{width:100%;border:1px solid #ddd;border-radius:10px;padding:10px 12px;font-size:15px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none;-webkit-appearance:none}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:#1a73e8}
+  .field textarea{resize:vertical;min-height:80px;line-height:1.6}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .modal-btns{display:flex;gap:10px;margin-top:20px;padding-bottom:env(safe-area-inset-bottom)}
+  .modal-btns .btn-cancel{flex:1}
+  .modal-btns .btn-primary{flex:2}
+  .prog-slider{width:100%;accent-color:#1a73e8;height:36px}
+
+  /* ── 상세보기 ── */
+  .detail-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+  .detail-table{width:100%;font-size:13px;margin-bottom:16px}
+  .detail-table td{padding:7px 0;vertical-align:top;border-bottom:1px solid #f5f5f5}
+  .detail-table td:first-child{color:#888;width:72px;font-size:12px}
+  .history-label{font-size:11px;font-weight:600;color:#888;letter-spacing:0.05em;margin-bottom:10px}
+  .history-item{border-left:3px solid #e8e8e8;padding:8px 12px;margin-bottom:8px;border-radius:0 6px 6px 0}
+  .history-item .hi-date{font-size:11px;color:#888;margin-bottom:3px}
+  .history-item .hi-author{font-size:11px;color:#1a73e8;font-weight:500}
+  .history-item .hi-text{font-size:13px;color:#333;line-height:1.5}
+
+  /* ── 템플릿 ── */
+  .tpl-item{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid #e8e8e8;border-radius:10px;margin-bottom:8px;background:#fff}
   .tpl-item:last-child{margin-bottom:0}
   .tpl-info{flex:1;min-width:0}
   .tpl-name{font-weight:500;font-size:13px;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .tpl-meta{font-size:12px;color:#888;margin-top:2px}
   .tpl-actions{display:flex;gap:5px;flex-shrink:0}
   .tpl-empty{text-align:center;padding:24px;color:#aaa;font-size:13px}
+
+  /* ── 반응형 ── */
+  @media(min-width:768px) {
+    .modal-bg{align-items:center;padding:16px}
+    .modal{border-radius:16px;width:min(520px,100%);max-height:90vh}
+    .modal-handle{display:none}
+    .modal-btns .btn-cancel{flex:none}
+    .modal-btns .btn-primary{flex:none}
+    .modal-btns{justify-content:flex-end}
+    .table-card{display:block}
+    .card-list{display:none !important}
+  }
+
+  @media(max-width:767px) {
+    .app{padding:14px 12px}
+    .stats{grid-template-columns:repeat(2,1fr);gap:8px}
+    .stat{padding:12px 14px}
+    .stat-val{font-size:20px}
+    .filter-bar{gap:6px}
+    .filter-bar input{width:100%}
+    .filter-bar select{flex:1;min-width:0}
+    .table-card{display:none}
+    .card-list{display:flex}
+    .top-actions{width:100%;justify-content:flex-end}
+  }
 </style>
 </head>
 <body>
@@ -103,9 +176,9 @@
       <div class="app-title">업무현황</div>
       <div class="app-subtitle">QC / QA 팀 업무 현황판</div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-      <button id="admin-btn" onclick="toggleAdmin()" style="border:1px solid #ddd;background:#fff;border-radius:7px;padding:7px 13px;font-size:12px;cursor:pointer;color:#888;font-family:inherit">🔒 관리자</button>
-      <button id="btn-tpl" onclick="openTplManager()" style="display:none;border:1px solid #ddd;background:#fff;border-radius:7px;padding:7px 13px;font-size:12px;cursor:pointer;color:#555;font-family:inherit">📋 템플릿 관리</button>
+    <div class="top-actions">
+      <button id="admin-btn" onclick="toggleAdmin()" style="border:1px solid #ddd;background:#fff;border-radius:7px;padding:8px 13px;font-size:12px;cursor:pointer;color:#888;font-family:inherit;touch-action:manipulation">🔒 관리자</button>
+      <button id="btn-tpl" onclick="openTplManager()" style="display:none;border:1px solid #ddd;background:#fff;border-radius:7px;padding:8px 13px;font-size:12px;cursor:pointer;color:#555;font-family:inherit;touch-action:manipulation">📋 템플릿</button>
       <button class="btn-primary" id="btn-add-task" onclick="openAdd()" style="display:none">+ 업무 추가</button>
     </div>
   </div>
@@ -120,22 +193,23 @@
   </div>
 
   <div class="filter-bar">
-    <input type="text" id="f-search" placeholder="🔍  업무명 검색..." oninput="renderTable()">
-    <select id="f-type" onchange="renderTable()">
+    <input type="text" id="f-search" placeholder="🔍 업무명 검색..." oninput="renderAll()">
+    <select id="f-type" onchange="renderAll()">
       <option value="">전체 유형</option><option value="QC">QC</option><option value="QA">QA</option>
     </select>
-    <select id="f-person" onchange="renderTable()"><option value="">전체 담당자</option></select>
-    <select id="f-status" onchange="renderTable()">
+    <select id="f-person" onchange="renderAll()"><option value="">전체 담당자</option></select>
+    <select id="f-status" onchange="renderAll()">
       <option value="">전체 상태</option><option value="대기">대기</option>
       <option value="진행중">진행중</option><option value="완료">완료</option><option value="보류">보류</option>
     </select>
-    <select id="f-priority" onchange="renderTable()">
+    <select id="f-priority" onchange="renderAll()">
       <option value="">전체 우선순위</option><option value="높음">높음</option>
       <option value="중간">중간</option><option value="낮음">낮음</option>
     </select>
-    <button class="btn-cancel" onclick="loadData()" style="margin-left:auto;font-size:12px;padding:6px 12px">↻ 새로고침</button>
+    <button class="btn-cancel" onclick="loadData()" style="margin-left:auto;font-size:12px;padding:7px 12px">↻</button>
   </div>
 
+  <!-- 데스크탑: 테이블 -->
   <div class="table-card">
     <div class="table-wrap">
       <table>
@@ -148,14 +222,19 @@
         </thead>
         <tbody id="tbody"></tbody>
       </table>
-      <div id="empty-msg" class="empty" style="display:none">📋 조건에 맞는 업무가 없습니다.</div>
+      <div id="empty-msg-desk" class="empty" style="display:none">📋 조건에 맞는 업무가 없습니다.</div>
     </div>
   </div>
+
+  <!-- 모바일: 카드 -->
+  <div class="card-list" id="card-list"></div>
+  <div id="empty-msg-mobile" class="empty" style="display:none">📋 조건에 맞는 업무가 없습니다.</div>
 </div>
 
 <!-- 업무 추가/수정 모달 -->
 <div class="modal-bg" id="add-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <h2 id="modal-title">업무 추가</h2>
     <div class="field" id="tpl-load-field" style="display:none">
       <label>템플릿 불러오기 <span style="color:#aaa;font-weight:400">(선택)</span></label>
@@ -174,7 +253,7 @@
       <div class="field"><label>담당자 *</label><select id="m-person"></select></div>
       <div class="field"><label>마감일</label><input type="date" id="m-due"></div>
     </div>
-    <div class="field"><label>업무 내용</label><textarea id="m-desc" placeholder="상세 내용, 참고사항 등을 입력하세요"></textarea></div>
+    <div class="field"><label>업무 내용</label><textarea id="m-desc" placeholder="상세 내용을 입력하세요"></textarea></div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal('add-modal')">취소</button>
       <button class="btn-primary" onclick="saveTask()">저장</button>
@@ -185,8 +264,9 @@
 <!-- 상태 업데이트 모달 -->
 <div class="modal-bg" id="update-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <h2>업무 상태 업데이트</h2>
-    <div id="update-info" style="background:#f8f9fa;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#333;border-left:3px solid #1a73e8"></div>
+    <div id="update-info" style="background:#f8f9fa;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:#333;border-left:3px solid #1a73e8"></div>
     <div class="field-row">
       <div class="field"><label>상태 변경</label>
         <select id="u-status"><option value="대기">대기</option><option value="진행중">진행중</option><option value="완료">완료</option><option value="보류">보류</option></select>
@@ -196,7 +276,7 @@
       </div>
     </div>
     <div class="field"><label>작성자</label><select id="u-author"></select></div>
-    <div class="field"><label>업데이트 내용 *</label><textarea id="u-comment" placeholder="진행 내용, 이슈사항, 특이사항 등을 입력하세요"></textarea></div>
+    <div class="field"><label>업데이트 내용 *</label><textarea id="u-comment" placeholder="진행 내용, 이슈사항 등을 입력하세요"></textarea></div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal('update-modal')">취소</button>
       <button class="btn-primary" onclick="saveUpdate()">업데이트</button>
@@ -207,6 +287,7 @@
 <!-- 템플릿 관리 모달 -->
 <div class="modal-bg" id="tpl-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <h2>템플릿 관리</h2>
     <div id="tpl-list"></div>
     <div class="modal-btns" style="justify-content:space-between">
@@ -219,8 +300,9 @@
 <!-- 템플릿 추가/수정 모달 -->
 <div class="modal-bg" id="tpl-edit-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <h2 id="tpl-edit-title">템플릿 추가</h2>
-    <div class="field"><label>템플릿명 *</label><input type="text" id="te-name" placeholder="예) 월간 입고검사, 주간 순회점검"></div>
+    <div class="field"><label>템플릿명 *</label><input type="text" id="te-name" placeholder="예) 월간 입고검사"></div>
     <div class="field-row">
       <div class="field"><label>업무 유형</label>
         <select id="te-type"><option value="QC">QC</option><option value="QA">QA</option></select>
@@ -233,7 +315,7 @@
       <select id="te-person"><option value="">미지정</option></select>
     </div>
     <div class="field"><label>업무 내용</label>
-      <textarea id="te-desc" placeholder="반복 업무의 상세 내용, 체크리스트 등을 입력하세요"></textarea>
+      <textarea id="te-desc" placeholder="반복 업무의 상세 내용을 입력하세요"></textarea>
     </div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal('tpl-edit-modal')">취소</button>
@@ -245,16 +327,16 @@
 <!-- 상세 보기 모달 -->
 <div class="modal-bg" id="detail-modal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <h2 id="d-title">업무 상세</h2>
     <div id="d-content"></div>
     <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal('detail-modal')">닫기</button>
+      <button class="btn-cancel" onclick="closeModal('detail-modal')" style="width:100%">닫기</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── Supabase 설정 ─────────────────────────────────────────────
 var SUPABASE_URL = 'https://uzcmjnaibwfxkvfzzvih.supabase.co';
 var SUPABASE_KEY = 'sb_publishable_t7OGQAEU5ewpL3ke69_IMg_nKXFwJB3';
 var API          = SUPABASE_URL + '/rest/v1';
@@ -265,9 +347,8 @@ var HEADERS      = {
   'Prefer':        'return=representation'
 };
 
-// ── 팀원 / 관리자 설정 ───────────────────────────────────────
 var MEMBERS     = ['오정현','박관호','조민정','박은진','윤민석'];
-var ADMIN_PW    = '1234';  // 나중에 환경변수로 이동 권장
+var ADMIN_PW    = '1234';
 var isAdmin     = false;
 var currentUser = '__all__';
 var allTasks    = [];
@@ -278,14 +359,12 @@ var updateId    = null;
 var tplEditId   = null;
 var today       = new Date().toISOString().slice(0,10);
 
-// ── XSS 방어 ─────────────────────────────────────────────────
 function esc(str) {
   return String(str||'')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;')
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-// ── Supabase API 헬퍼 ────────────────────────────────────────
 async function sbGet(table, params) {
   var url = API + '/' + table + '?order=created_at.asc';
   if (params) url += '&' + params;
@@ -293,31 +372,21 @@ async function sbGet(table, params) {
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
-
 async function sbPost(table, body) {
-  var res = await fetch(API + '/' + table, {
-    method: 'POST', headers: HEADERS, body: JSON.stringify(body)
-  });
+  var res = await fetch(API + '/' + table, { method:'POST', headers:HEADERS, body:JSON.stringify(body) });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
-
 async function sbPatch(table, id, body) {
-  var res = await fetch(API + '/' + table + '?id=eq.' + id, {
-    method: 'PATCH', headers: HEADERS, body: JSON.stringify(body)
-  });
+  var res = await fetch(API + '/' + table + '?id=eq.' + id, { method:'PATCH', headers:HEADERS, body:JSON.stringify(body) });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
-
 async function sbDelete(table, id) {
-  var res = await fetch(API + '/' + table + '?id=eq.' + id, {
-    method: 'DELETE', headers: Object.assign({}, HEADERS, { Prefer: 'return=minimal' })
-  });
+  var res = await fetch(API + '/' + table + '?id=eq.' + id, { method:'DELETE', headers:Object.assign({},HEADERS,{Prefer:'return=minimal'}) });
   if (!res.ok) throw new Error(await res.text());
 }
 
-// ── 초기화 ───────────────────────────────────────────────────
 window.onload = function() {
   ['f-person','m-person','u-author','te-person'].forEach(function(id) {
     var sel = document.getElementById(id);
@@ -327,28 +396,18 @@ window.onload = function() {
       o.value = m; o.textContent = m; sel.appendChild(o);
     });
   });
-  try {
-    var saved = localStorage.getItem('qc_current_user');
-    if (saved) currentUser = saved;
-  } catch(e) {}
+  try { var s = localStorage.getItem('qc_current_user'); if(s) currentUser=s; } catch(e){}
   loadData();
 };
 
-// ── 데이터 로드 ───────────────────────────────────────────────
 async function loadData() {
   showLoading(true, '데이터 불러오는 중...');
   hideError();
   try {
-    var results = await Promise.all([
-      sbGet('tasks'),
-      sbGet('updates'),
-      sbGet('templates')
-    ]);
-    allTasks     = results[0];
-    allUpdates   = results[1];
-    allTemplates = results[2];
+    var r = await Promise.all([sbGet('tasks'), sbGet('updates'), sbGet('templates')]);
+    allTasks=r[0]; allUpdates=r[1]; allTemplates=r[2];
     showLoading(false);
-    renderTable();
+    renderAll();
     renderTplSelect();
   } catch(e) {
     showLoading(false);
@@ -356,367 +415,325 @@ async function loadData() {
   }
 }
 
-// ── 테이블 렌더링 ─────────────────────────────────────────────
-function renderTable() {
+function getFiltered() {
   var search   = document.getElementById('f-search').value.toLowerCase();
   var type     = document.getElementById('f-type').value;
   var person   = document.getElementById('f-person').value;
   var status   = document.getElementById('f-status').value;
   var priority = document.getElementById('f-priority').value;
-
-  var list = allTasks.filter(function(t) {
-    if (search   && t.name.toLowerCase().indexOf(search) === -1) return false;
-    if (type     && t.type     !== type)     return false;
-    if (person   && t.person   !== person)   return false;
-    if (status   && t.status   !== status)   return false;
-    if (priority && t.priority !== priority) return false;
+  return allTasks.filter(function(t) {
+    if (search   && t.name.toLowerCase().indexOf(search)===-1) return false;
+    if (type     && t.type!==type)         return false;
+    if (person   && t.person!==person)     return false;
+    if (status   && t.status!==status)     return false;
+    if (priority && t.priority!==priority) return false;
     return true;
   });
+}
 
+function renderAll() {
+  var list = getFiltered();
+  // 통계
   document.getElementById('s-total').textContent = allTasks.length;
   document.getElementById('s-wip').textContent   = allTasks.filter(function(t){return t.status==='진행중';}).length;
   document.getElementById('s-done').textContent  = allTasks.filter(function(t){return t.status==='완료';}).length;
-  document.getElementById('s-over').textContent  = allTasks.filter(function(t){return t.due && t.due < today && t.status !== '완료';}).length;
+  document.getElementById('s-over').textContent  = allTasks.filter(function(t){return t.due&&t.due<today&&t.status!=='완료';}).length;
+  renderTable(list);
+  renderCards(list);
+}
 
+var typeCls   = {QC:'b-qc',QA:'b-qa'};
+var prioCls   = {'높음':'b-high','중간':'b-mid','낮음':'b-low'};
+var statusCls = {'대기':'b-todo','진행중':'b-wip','완료':'b-done','보류':'b-hold'};
+
+// ── 데스크탑 테이블 렌더링
+function renderTable(list) {
   var tb = document.getElementById('tbody');
-  var em = document.getElementById('empty-msg');
-  if (!list.length) { tb.innerHTML = ''; em.style.display = 'block'; return; }
-  em.style.display = 'none';
-
-  var typeCls   = { QC:'b-qc', QA:'b-qa' };
-  var prioCls   = { '높음':'b-high', '중간':'b-mid', '낮음':'b-low' };
-  var statusCls = { '대기':'b-todo', '진행중':'b-wip', '완료':'b-done', '보류':'b-hold' };
-
+  var em = document.getElementById('empty-msg-desk');
+  if (!list.length) { tb.innerHTML=''; em.style.display='block'; return; }
+  em.style.display='none';
   tb.innerHTML = list.map(function(t) {
-    var isOverdue = t.due && t.due < today && t.status !== '완료';
-    var upds = allUpdates.filter(function(u){ return u.task_id === t.id; });
+    var isOverdue = t.due&&t.due<today&&t.status!=='완료';
+    var upds = allUpdates.filter(function(u){return u.task_id===t.id;});
     var lu   = upds.length ? upds[upds.length-1] : null;
     return '<tr>'
-      + '<td><span class="badge '+(typeCls[t.type]||'b-qc')+'">'+esc(t.type)+'</span></td>'
-      + '<td><div class="task-name" onclick="openDetail(\''+t.id+'\')">'+esc(t.name)+'</div>'
-      + (t.description ? '<div class="task-desc">'+esc(t.description)+'</div>' : '') + '</td>'
-      + '<td>'+esc(t.person)+'</td>'
-      + '<td><span class="badge '+(prioCls[t.priority]||'b-mid')+'">'+esc(t.priority)+'</span></td>'
-      + '<td'+(isOverdue?' class="overdue"':'')+'>'+(t.due||'-')+(isOverdue?' ⚠':'')+' </td>'
-      + '<td><div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" style="width:'+t.progress+'%"></div></div>'
-      + '<span style="font-size:12px;color:#888">'+t.progress+'%</span></div></td>'
-      + '<td><span class="badge '+(statusCls[t.status]||'b-todo')+'">'+esc(t.status)+'</span></td>'
-      + '<td>'+(lu ? '<div class="update-cell"><span class="udate">'+(lu.created_at||'').slice(0,10)+'</span> · '+esc(lu.author)+'<span class="utext">'+esc(lu.comment)+'</span></div>' : '<span style="color:#ccc;font-size:12px">-</span>')+'</td>'
-      + '<td style="white-space:nowrap">'
-      + '<button class="btn-sm" onclick="openUpdate(\''+t.id+'\')">업데이트</button> '
-      + (isAdmin ? '<button class="btn-sm" onclick="openEdit(\''+t.id+'\')">수정</button> '
-                 + '<button class="btn-sm btn-del" onclick="confirmDelete(\''+t.id+'\')">삭제</button>' : '')
-      + '</td></tr>';
+      +'<td><span class="badge '+(typeCls[t.type]||'b-qc')+'">'+esc(t.type)+'</span></td>'
+      +'<td><div class="task-name" onclick="openDetail(\''+t.id+'\')">'+esc(t.name)+'</div>'
+      +(t.description?'<div class="task-desc">'+esc(t.description)+'</div>':'')+'</td>'
+      +'<td>'+esc(t.person)+'</td>'
+      +'<td><span class="badge '+(prioCls[t.priority]||'b-mid')+'">'+esc(t.priority)+'</span></td>'
+      +'<td'+(isOverdue?' class="overdue"':'')+'>'+(t.due||'-')+(isOverdue?' ⚠':'')+' </td>'
+      +'<td><div class="prog-wrap"><div class="prog-bar" style="width:72px"><div class="prog-fill" style="width:'+t.progress+'%"></div></div>'
+      +'<span style="font-size:12px;color:#888">'+t.progress+'%</span></div></td>'
+      +'<td><span class="badge '+(statusCls[t.status]||'b-todo')+'">'+esc(t.status)+'</span></td>'
+      +'<td>'+(lu?'<div class="update-cell"><span class="udate">'+(lu.created_at||'').slice(0,10)+'</span> · '+esc(lu.author)+'<span class="utext">'+esc(lu.comment)+'</span></div>':'<span style="color:#ccc;font-size:12px">-</span>')+'</td>'
+      +'<td style="white-space:nowrap">'
+      +'<button class="btn-sm" onclick="openUpdate(\''+t.id+'\')">업데이트</button> '
+      +(isAdmin?'<button class="btn-sm" onclick="openEdit(\''+t.id+'\')">수정</button> '
+               +'<button class="btn-sm btn-del" onclick="confirmDelete(\''+t.id+'\')">삭제</button>':'')
+      +'</td></tr>';
   }).join('');
 }
 
-// ── 관리자 모드 ──────────────────────────────────────────────
+// ── 모바일 카드 렌더링
+function renderCards(list) {
+  var cl = document.getElementById('card-list');
+  var em = document.getElementById('empty-msg-mobile');
+  if (!list.length) { cl.innerHTML=''; em.style.display='block'; return; }
+  em.style.display='none';
+  cl.innerHTML = list.map(function(t) {
+    var isOverdue = t.due&&t.due<today&&t.status!=='완료';
+    var upds = allUpdates.filter(function(u){return u.task_id===t.id;});
+    var lu   = upds.length ? upds[upds.length-1] : null;
+    return '<div class="task-card" onclick="openDetail(\''+t.id+'\')">'
+      +'<div class="card-top">'
+      +'<div class="card-badges">'
+      +'<span class="badge '+(typeCls[t.type]||'b-qc')+'">'+esc(t.type)+'</span>'
+      +'<span class="badge '+(prioCls[t.priority]||'b-mid')+'">'+esc(t.priority)+'</span>'
+      +'<span class="badge '+(statusCls[t.status]||'b-todo')+'">'+esc(t.status)+'</span>'
+      +(isOverdue?'<span class="badge b-high">기한초과</span>':'')
+      +'</div></div>'
+      +'<div class="card-title">'+esc(t.name)+'</div>'
+      +(t.description?'<div class="card-desc">'+esc(t.description)+'</div>':'')
+      +'<div class="card-meta">'
+      +'<div class="card-meta-item"><span class="card-meta-label">담당자</span><span class="card-meta-value">'+esc(t.person)+'</span></div>'
+      +'<div class="card-meta-item"><span class="card-meta-label">마감일</span><span class="card-meta-value'+(isOverdue?' overdue-text':'')+'">'+  (t.due||'-')+'</span></div>'
+      +'</div>'
+      +'<div class="card-progress">'
+      +'<div class="card-progress-label"><span>진행률</span><span style="font-weight:600;color:#1a73e8">'+t.progress+'%</span></div>'
+      +'<div class="card-prog-bar"><div class="card-prog-fill" style="width:'+t.progress+'%"></div></div>'
+      +'</div>'
+      +'<div class="card-footer">'
+      +'<div class="card-update">'+(lu?'<span style="color:#555;font-weight:500">'+(lu.created_at||'').slice(0,10)+'</span> · '+esc(lu.author)+'<br>'+esc(lu.comment):'업데이트 없음')+'</div>'
+      +'<div class="card-actions" onclick="event.stopPropagation()">'
+      +'<button class="btn-sm" onclick="openUpdate(\''+t.id+'\')">업데이트</button>'
+      +(isAdmin?'<button class="btn-sm" onclick="openEdit(\''+t.id+'\')">수정</button>'
+               +'<button class="btn-sm btn-del" onclick="confirmDelete(\''+t.id+'\')">삭제</button>':'')
+      +'</div></div>'
+      +'</div>';
+  }).join('');
+}
+
 function toggleAdmin() {
   if (isAdmin) {
-    isAdmin = false;
-    document.getElementById('admin-btn').textContent       = '🔒 관리자';
-    document.getElementById('admin-btn').style.color       = '#888';
-    document.getElementById('admin-btn').style.borderColor = '#ddd';
-    document.getElementById('btn-add-task').style.display  = 'none';
-    document.getElementById('btn-tpl').style.display       = 'none';
-    renderTable(); return;
+    isAdmin=false;
+    document.getElementById('admin-btn').textContent='🔒 관리자';
+    document.getElementById('admin-btn').style.color='#888';
+    document.getElementById('admin-btn').style.borderColor='#ddd';
+    document.getElementById('btn-add-task').style.display='none';
+    document.getElementById('btn-tpl').style.display='none';
+    renderAll(); return;
   }
-  var pw = prompt('관리자 비밀번호를 입력하세요');
-  if (pw === null) return;
-  if (pw === ADMIN_PW) {
-    isAdmin = true;
-    document.getElementById('admin-btn').textContent       = '🔓 관리자 모드';
-    document.getElementById('admin-btn').style.color       = '#1a73e8';
-    document.getElementById('admin-btn').style.borderColor = '#1a73e8';
-    document.getElementById('btn-add-task').style.display  = 'inline-block';
-    document.getElementById('btn-tpl').style.display       = 'inline-block';
-    renderTable();
-    toast('관리자 모드 활성화');
-  } else {
-    toast('비밀번호가 올바르지 않습니다');
-  }
+  var pw=prompt('관리자 비밀번호를 입력하세요');
+  if(pw===null) return;
+  if(pw===ADMIN_PW) {
+    isAdmin=true;
+    document.getElementById('admin-btn').textContent='🔓 관리자';
+    document.getElementById('admin-btn').style.color='#1a73e8';
+    document.getElementById('admin-btn').style.borderColor='#1a73e8';
+    document.getElementById('btn-add-task').style.display='inline-block';
+    document.getElementById('btn-tpl').style.display='inline-block';
+    renderAll(); toast('관리자 모드 활성화');
+  } else { toast('비밀번호가 올바르지 않습니다'); }
 }
 
-// ── 업무 추가/수정 ───────────────────────────────────────────
 function openAdd() {
-  editId = null;
-  document.getElementById('modal-title').textContent = '업무 추가';
-  document.getElementById('m-type').value     = 'QC';
-  document.getElementById('m-name').value     = '';
-  document.getElementById('m-priority').value = '중간';
-  document.getElementById('m-due').value      = '';
-  document.getElementById('m-desc').value     = '';
-  document.getElementById('m-person').value   = MEMBERS[0];
-  document.getElementById('tpl-select').value = '';
-  document.getElementById('tpl-load-field').style.display = allTemplates.length ? 'block' : 'none';
+  editId=null;
+  document.getElementById('modal-title').textContent='업무 추가';
+  document.getElementById('m-type').value='QC';
+  document.getElementById('m-name').value='';
+  document.getElementById('m-priority').value='중간';
+  document.getElementById('m-due').value='';
+  document.getElementById('m-desc').value='';
+  document.getElementById('m-person').value=MEMBERS[0];
+  document.getElementById('tpl-select').value='';
+  document.getElementById('tpl-load-field').style.display=allTemplates.length?'block':'none';
   document.getElementById('add-modal').classList.add('open');
 }
-
 function openEdit(id) {
-  var t = allTasks.find(function(x){return x.id===id;});
-  if (!t) return;
-  editId = id;
-  document.getElementById('modal-title').textContent = '업무 수정';
-  document.getElementById('m-type').value     = t.type;
-  document.getElementById('m-name').value     = t.name;
-  document.getElementById('m-person').value   = t.person;
-  document.getElementById('m-priority').value = t.priority;
-  document.getElementById('m-due').value      = t.due || '';
-  document.getElementById('m-desc').value     = t.description || '';
-  document.getElementById('tpl-load-field').style.display = 'none';
+  var t=allTasks.find(function(x){return x.id===id;});
+  if(!t) return;
+  editId=id;
+  document.getElementById('modal-title').textContent='업무 수정';
+  document.getElementById('m-type').value=t.type;
+  document.getElementById('m-name').value=t.name;
+  document.getElementById('m-person').value=t.person;
+  document.getElementById('m-priority').value=t.priority;
+  document.getElementById('m-due').value=t.due||'';
+  document.getElementById('m-desc').value=t.description||'';
+  document.getElementById('tpl-load-field').style.display='none';
   document.getElementById('add-modal').classList.add('open');
 }
-
 async function saveTask() {
-  var name = document.getElementById('m-name').value.trim();
-  if (!name) { toast('업무명을 입력하세요'); return; }
-  var body = {
-    type:        document.getElementById('m-type').value,
-    name:        name,
-    person:      document.getElementById('m-person').value,
-    priority:    document.getElementById('m-priority').value,
-    due:         document.getElementById('m-due').value || null,
-    description: document.getElementById('m-desc').value
-  };
-  showLoading(true, '저장 중...');
-  closeModal('add-modal');
+  var name=document.getElementById('m-name').value.trim();
+  if(!name){toast('업무명을 입력하세요');return;}
+  var body={type:document.getElementById('m-type').value,name:name,
+    person:document.getElementById('m-person').value,
+    priority:document.getElementById('m-priority').value,
+    due:document.getElementById('m-due').value||null,
+    description:document.getElementById('m-desc').value};
+  showLoading(true,'저장 중...'); closeModal('add-modal');
   try {
-    if (editId) {
-      await sbPatch('tasks', editId, body);
-    } else {
-      body.status = '대기'; body.progress = 0;
-      await sbPost('tasks', body);
-    }
-    await loadData();
-    toast('저장되었습니다');
-  } catch(e) {
-    showLoading(false);
-    showError('저장 실패: ' + e.message);
-  }
+    if(editId) { await sbPatch('tasks',editId,body); }
+    else { body.status='대기'; body.progress=0; await sbPost('tasks',body); }
+    await loadData(); toast('저장되었습니다');
+  } catch(e){ showLoading(false); showError('저장 실패: '+e.message); }
 }
 
-// ── 업무 업데이트 ────────────────────────────────────────────
 function openUpdate(id) {
-  var t = allTasks.find(function(x){return x.id===id;});
-  if (!t) return;
-  updateId = id;
-  document.getElementById('update-info').innerHTML =
+  var t=allTasks.find(function(x){return x.id===id;});
+  if(!t) return;
+  updateId=id;
+  document.getElementById('update-info').innerHTML=
     '<strong>'+esc(t.name)+'</strong> &nbsp;·&nbsp; '+esc(t.person)+' &nbsp;·&nbsp; <span class="badge '+(t.type==='QC'?'b-qc':'b-qa')+'">'+esc(t.type)+'</span>';
-  document.getElementById('u-status').value   = t.status;
-  document.getElementById('u-progress').value = t.progress;
-  document.getElementById('u-prog-val').textContent = t.progress + '%';
-  document.getElementById('u-comment').value  = '';
-  document.getElementById('u-author').value   = (currentUser !== '__all__') ? currentUser : MEMBERS[0];
+  document.getElementById('u-status').value=t.status;
+  document.getElementById('u-progress').value=t.progress;
+  document.getElementById('u-prog-val').textContent=t.progress+'%';
+  document.getElementById('u-comment').value='';
+  document.getElementById('u-author').value=(currentUser!=='__all__')?currentUser:MEMBERS[0];
   document.getElementById('update-modal').classList.add('open');
 }
-
 async function saveUpdate() {
-  var comment = document.getElementById('u-comment').value.trim();
-  if (!comment) { toast('업데이트 내용을 입력하세요'); return; }
-  var progress = parseInt(document.getElementById('u-progress').value);
-  var status   = document.getElementById('u-status').value;
-  if (status === '완료') progress = 100;
-
-  showLoading(true, '저장 중...');
-  closeModal('update-modal');
+  var comment=document.getElementById('u-comment').value.trim();
+  if(!comment){toast('업데이트 내용을 입력하세요');return;}
+  var progress=parseInt(document.getElementById('u-progress').value);
+  var status=document.getElementById('u-status').value;
+  if(status==='완료') progress=100;
+  showLoading(true,'저장 중...'); closeModal('update-modal');
   try {
-    // 업데이트 이력 추가
-    await sbPost('updates', {
-      task_id: updateId,
-      author:  document.getElementById('u-author').value,
-      comment: comment
-    });
-    // 업무 상태/진행률 갱신
-    await sbPatch('tasks', updateId, { status: status, progress: progress });
-    await loadData();
-    toast('저장되었습니다');
-  } catch(e) {
-    showLoading(false);
-    showError('업데이트 실패: ' + e.message);
-  }
+    await sbPost('updates',{task_id:updateId,author:document.getElementById('u-author').value,comment:comment});
+    await sbPatch('tasks',updateId,{status:status,progress:progress});
+    await loadData(); toast('저장되었습니다');
+  } catch(e){ showLoading(false); showError('업데이트 실패: '+e.message); }
 }
 
-// ── 상세 보기 ────────────────────────────────────────────────
 function openDetail(id) {
-  var t = allTasks.find(function(x){return x.id===id;});
-  if (!t) return;
-  var upds = allUpdates.filter(function(u){return u.task_id===id;}).reverse();
-  var statusCls = {'대기':'b-todo','진행중':'b-wip','완료':'b-done','보류':'b-hold'};
-  var prioCls   = {'높음':'b-high','중간':'b-mid','낮음':'b-low'};
-  var histHTML = upds.length
-    ? upds.map(function(u){
+  var t=allTasks.find(function(x){return x.id===id;});
+  if(!t) return;
+  var upds=allUpdates.filter(function(u){return u.task_id===id;}).reverse();
+  var histHTML=upds.length
+    ?upds.map(function(u){
         return '<div class="history-item">'
-          + '<div class="hi-date">'+(u.created_at||'').slice(0,10)+' &nbsp;<span class="hi-author">'+esc(u.author)+'</span></div>'
-          + '<div class="hi-text">'+esc(u.comment)+'</div>'
-          + '</div>';
+          +'<div class="hi-date">'+(u.created_at||'').slice(0,10)+' &nbsp;<span class="hi-author">'+esc(u.author)+'</span></div>'
+          +'<div class="hi-text">'+esc(u.comment)+'</div></div>';
       }).join('')
-    : '<div style="font-size:13px;color:#aaa">업데이트 내역 없음</div>';
-  document.getElementById('d-title').textContent = t.name;
-  document.getElementById('d-content').innerHTML =
+    :'<div style="font-size:13px;color:#aaa">업데이트 내역 없음</div>';
+  document.getElementById('d-title').textContent=t.name;
+  document.getElementById('d-content').innerHTML=
     '<div class="detail-meta">'
-    + '<span class="badge '+(t.type==='QC'?'b-qc':'b-qa')+'">'+esc(t.type)+'</span>'
-    + '<span class="badge '+(prioCls[t.priority]||'b-mid')+'">'+esc(t.priority)+'</span>'
-    + '<span class="badge '+(statusCls[t.status]||'b-todo')+'">'+esc(t.status)+'</span></div>'
-    + '<table class="detail-table">'
-    + '<tr><td>담당자</td><td>'+esc(t.person)+'</td></tr>'
-    + '<tr><td>마감일</td><td>'+(t.due||'-')+'</td></tr>'
-    + '<tr><td>등록일</td><td>'+(t.created_at||'').slice(0,10)+'</td></tr>'
-    + '<tr><td>진행률</td><td><div class="prog-wrap" style="display:inline-flex"><div class="prog-bar" style="width:100px"><div class="prog-fill" style="width:'+t.progress+'%"></div></div>&nbsp;'+t.progress+'%</div></td></tr>'
-    + (t.description ? '<tr><td>내용</td><td style="line-height:1.6">'+esc(t.description)+'</td></tr>' : '')
-    + '</table>'
-    + '<div class="history-label">업데이트 이력 ('+upds.length+'건)</div>'
-    + histHTML;
+    +'<span class="badge '+(t.type==='QC'?'b-qc':'b-qa')+'">'+esc(t.type)+'</span>'
+    +'<span class="badge '+(prioCls[t.priority]||'b-mid')+'">'+esc(t.priority)+'</span>'
+    +'<span class="badge '+(statusCls[t.status]||'b-todo')+'">'+esc(t.status)+'</span></div>'
+    +'<table class="detail-table">'
+    +'<tr><td>담당자</td><td>'+esc(t.person)+'</td></tr>'
+    +'<tr><td>마감일</td><td>'+(t.due||'-')+'</td></tr>'
+    +'<tr><td>등록일</td><td>'+(t.created_at||'').slice(0,10)+'</td></tr>'
+    +'<tr><td>진행률</td><td><div class="prog-wrap"><div class="prog-bar" style="width:120px"><div class="prog-fill" style="width:'+t.progress+'%"></div></div>&nbsp;'+t.progress+'%</div></td></tr>'
+    +(t.description?'<tr><td>내용</td><td style="line-height:1.6">'+esc(t.description)+'</td></tr>':'')
+    +'</table>'
+    +'<div class="history-label">업데이트 이력 ('+upds.length+'건)</div>'+histHTML;
   document.getElementById('detail-modal').classList.add('open');
 }
 
-// ── 삭제 ─────────────────────────────────────────────────────
 async function confirmDelete(id) {
-  var t = allTasks.find(function(x){return x.id===id;});
-  if (!t || !confirm('"'+t.name+'" 업무를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) return;
-  showLoading(true, '삭제 중...');
-  try {
-    await sbDelete('tasks', id);
-    await loadData();
-    toast('삭제되었습니다');
-  } catch(e) {
-    showLoading(false);
-    showError('삭제 실패: ' + e.message);
-  }
+  var t=allTasks.find(function(x){return x.id===id;});
+  if(!t||!confirm('"'+t.name+'" 업무를 삭제하시겠습니까?')) return;
+  showLoading(true,'삭제 중...');
+  try { await sbDelete('tasks',id); await loadData(); toast('삭제되었습니다'); }
+  catch(e){ showLoading(false); showError('삭제 실패: '+e.message); }
 }
 
-// ── 템플릿 ───────────────────────────────────────────────────
 function renderTplSelect() {
-  var sel = document.getElementById('tpl-select');
-  sel.innerHTML = '<option value="">— 템플릿 선택 —</option>';
-  allTemplates.forEach(function(t) {
-    var o = document.createElement('option');
-    o.value = t.id; o.textContent = t.tpl_name + ' (' + t.type + ')';
-    sel.appendChild(o);
+  var sel=document.getElementById('tpl-select');
+  sel.innerHTML='<option value="">— 템플릿 선택 —</option>';
+  allTemplates.forEach(function(t){
+    var o=document.createElement('option');
+    o.value=t.id; o.textContent=t.tpl_name+' ('+t.type+')'; sel.appendChild(o);
   });
 }
-
 function applyTemplate() {
-  var id = document.getElementById('tpl-select').value;
-  if (!id) return;
-  var t = allTemplates.find(function(x){ return x.id === id; });
-  if (!t) return;
-  document.getElementById('m-type').value     = t.type;
-  document.getElementById('m-priority').value = t.priority;
-  document.getElementById('m-desc').value     = t.description || '';
-  if (t.person) document.getElementById('m-person').value = t.person;
+  var id=document.getElementById('tpl-select').value; if(!id) return;
+  var t=allTemplates.find(function(x){return x.id===id;}); if(!t) return;
+  document.getElementById('m-type').value=t.type;
+  document.getElementById('m-priority').value=t.priority;
+  document.getElementById('m-desc').value=t.description||'';
+  if(t.person) document.getElementById('m-person').value=t.person;
   toast('템플릿이 적용되었습니다');
 }
-
-function openTplManager() {
-  renderTplList();
-  document.getElementById('tpl-modal').classList.add('open');
-}
-
+function openTplManager() { renderTplList(); document.getElementById('tpl-modal').classList.add('open'); }
 function renderTplList() {
-  var el = document.getElementById('tpl-list');
-  if (!allTemplates.length) {
-    el.innerHTML = '<div class="tpl-empty">등록된 템플릿이 없습니다.</div>';
-    return;
-  }
-  var prioCls = {'높음':'b-high','중간':'b-mid','낮음':'b-low'};
-  var typeCls = {QC:'b-qc',QA:'b-qa'};
-  el.innerHTML = allTemplates.map(function(t) {
+  var el=document.getElementById('tpl-list');
+  if(!allTemplates.length){el.innerHTML='<div class="tpl-empty">등록된 템플릿이 없습니다.</div>';return;}
+  var pc={'높음':'b-high','중간':'b-mid','낮음':'b-low'};
+  var tc={QC:'b-qc',QA:'b-qa'};
+  el.innerHTML=allTemplates.map(function(t){
     return '<div class="tpl-item">'
-      + '<div class="tpl-info"><div class="tpl-name">'+esc(t.tpl_name)+'</div>'
-      + '<div class="tpl-meta">'
-      + '<span class="badge '+(typeCls[t.type]||'b-qc')+'" style="font-size:10px;padding:2px 6px">'+esc(t.type)+'</span> '
-      + '<span class="badge '+(prioCls[t.priority]||'b-mid')+'" style="font-size:10px;padding:2px 6px">'+esc(t.priority)+'</span>'
-      + (t.person ? ' &nbsp;· '+esc(t.person) : '')
-      + '</div></div>'
-      + '<div class="tpl-actions">'
-      + '<button class="btn-sm" onclick="openTplEdit(\''+t.id+'\')">수정</button>'
-      + '<button class="btn-sm btn-del" onclick="deleteTpl(\''+t.id+'\')">삭제</button>'
-      + '</div></div>';
+      +'<div class="tpl-info"><div class="tpl-name">'+esc(t.tpl_name)+'</div>'
+      +'<div class="tpl-meta"><span class="badge '+(tc[t.type]||'b-qc')+'" style="font-size:10px;padding:2px 6px">'+esc(t.type)+'</span> '
+      +'<span class="badge '+(pc[t.priority]||'b-mid')+'" style="font-size:10px;padding:2px 6px">'+esc(t.priority)+'</span>'
+      +(t.person?' &nbsp;· '+esc(t.person):'')+'</div></div>'
+      +'<div class="tpl-actions">'
+      +'<button class="btn-sm" onclick="openTplEdit(\''+t.id+'\')">수정</button>'
+      +'<button class="btn-sm btn-del" onclick="deleteTpl(\''+t.id+'\')">삭제</button>'
+      +'</div></div>';
   }).join('');
 }
-
 function openTplEdit(id) {
-  tplEditId = id;
-  if (id) {
-    var t = allTemplates.find(function(x){ return x.id === id; });
-    if (!t) return;
-    document.getElementById('tpl-edit-title').textContent = '템플릿 수정';
-    document.getElementById('te-name').value     = t.tpl_name;
-    document.getElementById('te-type').value     = t.type;
-    document.getElementById('te-priority').value = t.priority;
-    document.getElementById('te-person').value   = t.person || '';
-    document.getElementById('te-desc').value     = t.description || '';
+  tplEditId=id;
+  if(id){
+    var t=allTemplates.find(function(x){return x.id===id;}); if(!t) return;
+    document.getElementById('tpl-edit-title').textContent='템플릿 수정';
+    document.getElementById('te-name').value=t.tpl_name;
+    document.getElementById('te-type').value=t.type;
+    document.getElementById('te-priority').value=t.priority;
+    document.getElementById('te-person').value=t.person||'';
+    document.getElementById('te-desc').value=t.description||'';
   } else {
-    document.getElementById('tpl-edit-title').textContent = '템플릿 추가';
-    document.getElementById('te-name').value     = '';
-    document.getElementById('te-type').value     = 'QC';
-    document.getElementById('te-priority').value = '중간';
-    document.getElementById('te-person').value   = '';
-    document.getElementById('te-desc').value     = '';
+    document.getElementById('tpl-edit-title').textContent='템플릿 추가';
+    document.getElementById('te-name').value='';
+    document.getElementById('te-type').value='QC';
+    document.getElementById('te-priority').value='중간';
+    document.getElementById('te-person').value='';
+    document.getElementById('te-desc').value='';
   }
   document.getElementById('tpl-edit-modal').classList.add('open');
 }
-
 async function saveTpl() {
-  var name = document.getElementById('te-name').value.trim();
-  if (!name) { toast('템플릿명을 입력하세요'); return; }
-  var body = {
-    tpl_name:    name,
-    type:        document.getElementById('te-type').value,
-    priority:    document.getElementById('te-priority').value,
-    person:      document.getElementById('te-person').value,
-    description: document.getElementById('te-desc').value
-  };
-  showLoading(true, '저장 중...');
-  closeModal('tpl-edit-modal');
+  var name=document.getElementById('te-name').value.trim();
+  if(!name){toast('템플릿명을 입력하세요');return;}
+  var body={tpl_name:name,type:document.getElementById('te-type').value,
+    priority:document.getElementById('te-priority').value,
+    person:document.getElementById('te-person').value,
+    description:document.getElementById('te-desc').value};
+  showLoading(true,'저장 중...'); closeModal('tpl-edit-modal');
   try {
-    if (tplEditId) {
-      await sbPatch('templates', tplEditId, body);
-    } else {
-      await sbPost('templates', body);
-    }
-    await loadData();
-    closeModal('tpl-modal');
-    toast(tplEditId ? '템플릿이 수정되었습니다' : '템플릿이 추가되었습니다');
-  } catch(e) {
-    showLoading(false);
-    showError('저장 실패: ' + e.message);
-  }
+    if(tplEditId){await sbPatch('templates',tplEditId,body);}
+    else{await sbPost('templates',body);}
+    await loadData(); closeModal('tpl-modal');
+    toast(tplEditId?'템플릿이 수정되었습니다':'템플릿이 추가되었습니다');
+  } catch(e){ showLoading(false); showError('저장 실패: '+e.message); }
 }
-
 async function deleteTpl(id) {
-  var t = allTemplates.find(function(x){ return x.id === id; });
-  if (!t || !confirm('"'+t.tpl_name+'" 템플릿을 삭제하시겠습니까?')) return;
-  showLoading(true, '삭제 중...');
-  try {
-    await sbDelete('templates', id);
-    await loadData();
-    renderTplList();
-    toast('삭제되었습니다');
-  } catch(e) {
-    showLoading(false);
-    showError('삭제 실패: ' + e.message);
-  }
+  var t=allTemplates.find(function(x){return x.id===id;});
+  if(!t||!confirm('"'+t.tpl_name+'" 템플릿을 삭제하시겠습니까?')) return;
+  showLoading(true,'삭제 중...');
+  try { await sbDelete('templates',id); await loadData(); renderTplList(); toast('삭제되었습니다'); }
+  catch(e){ showLoading(false); showError('삭제 실패: '+e.message); }
 }
 
-// ── 공통 유틸 ────────────────────────────────────────────────
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-bg').forEach(function(m){
-  m.addEventListener('click', function(e){ if(e.target===m) m.classList.remove('open'); });
+  m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('open');});
 });
-function showLoading(v, msg) {
-  document.getElementById('loading').style.display = v ? 'flex' : 'none';
-  if (msg) document.getElementById('loading-text').textContent = msg;
+function showLoading(v,msg){
+  document.getElementById('loading').style.display=v?'flex':'none';
+  if(msg)document.getElementById('loading-text').textContent=msg;
 }
-function showError(msg) {
-  var el = document.getElementById('error-box');
-  el.textContent = '⚠ ' + msg; el.style.display = 'block';
-}
-function hideError() { document.getElementById('error-box').style.display = 'none'; }
-function toast(msg) {
-  var el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  setTimeout(function(){ el.classList.remove('show'); }, 2500);
+function showError(msg){var el=document.getElementById('error-box');el.textContent='⚠ '+msg;el.style.display='block';}
+function hideError(){document.getElementById('error-box').style.display='none';}
+function toast(msg){
+  var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},2500);
 }
 </script>
 </body>
